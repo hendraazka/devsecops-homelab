@@ -1,0 +1,4 @@
+account-service/target/
+**/.idea/
+**/*.iml
+**/.vscode/

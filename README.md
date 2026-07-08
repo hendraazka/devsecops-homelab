@@ -94,3 +94,4 @@ GitHub Actions + Kubernetes manifest, sebagai exercise tambahan:
   perusahaan enterprise/legacy)
 - **Ansible** — provisioning/konfigurasi cluster sebelum deploy aplikasi
   (melengkapi pengalaman Ansible dari [DevOps Homelab Journey](https://github.com/hendraazka/devops-homelab-journey))
+- **ArgoCD / Flux (GitOps)** — otomatisasi penuh dari "image baru di registry" sampai "ter-deploy ke cluster" tanpa `kubectl rollout restart` manual, melengkapi celah yang ditemukan di Day 05 (CD saat ini masih berhenti di *Continuous Delivery*, belum *Continuous Deployment*)

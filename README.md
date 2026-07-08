@@ -11,6 +11,7 @@ Stack: Java (Spring Boot) - Docker - GitHub Actions - Kubernetes (kind)
 | Hari | Topik | Status |
 |---|---|---|
 | [Day 01](./day-01-app-and-dockerfile) | Aplikasi contoh + Dockerfile | ✅ |
+| [Day 02](./day-02-ci-basics) | CI dasar dengan GitHub Actions | ✅ |
 
 ## Struktur Repo
 - `account-service/` - kode aplikasi yang terus dikembangkan tiap hari

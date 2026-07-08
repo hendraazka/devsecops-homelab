@@ -39,3 +39,5 @@ public class Account {
         this.balance = balance;
     }
 }
+// sengaja bikin syntax error untuk testing CI
+ini bukan kode java yang valid {{{

@@ -32,4 +32,10 @@ public class AccountController {
         accounts.put(account.getAccountNumber(), account);
         return account;
     }
+
+    @DeleteMapping("/{accountNumber}")
+    public String deleteAccount(@PathVariable String accountNumber) {
+        accounts.remove(accountNumber);
+        return "Akun " + accountNumber + " berhasil dihapus";
+    }
 }

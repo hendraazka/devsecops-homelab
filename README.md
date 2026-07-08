@@ -16,3 +16,12 @@ Stack: Java (Spring Boot) - Docker - GitHub Actions - Kubernetes (kind)
 ## Struktur Repo
 - `account-service/` - kode aplikasi yang terus dikembangkan tiap hari
 - `day-XX-.../` - catatan/log belajar tiap hari
+
+## Opsional Lanjutan (setelah Day 12)
+Setelah seluruh siklus DevSecOps utama (Day 1-12) tuntas dengan
+GitHub Actions + Kubernetes manifest, sebagai exercise tambahan:
+- **Jenkins**: migrasikan pipeline yang sama (CI + security scan) ke Jenkins,
+  untuk memahami konsep CI/CD yang sama dalam tool berbeda (banyak dipakai
+  di perusahaan enterprise/legacy).
+- **Ansible**: pakai untuk provisioning/konfigurasi cluster sebelum deploy
+  aplikasi (melengkapi pengalaman Ansible dari homelab DevOps sebelumnya).

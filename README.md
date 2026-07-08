@@ -12,6 +12,7 @@ Stack: Java (Spring Boot) - Docker - GitHub Actions - Kubernetes (kind)
 |---|---|---|
 | [Day 01](./day-01-app-and-dockerfile) | Aplikasi contoh + Dockerfile | ✅ |
 | [Day 02](./day-02-ci-basics) | CI dasar dengan GitHub Actions | ✅ |
+| [Day 03](./day-03-cd-build-push-image) | CD - Build & push image ke ghcr.io | ✅ |
 
 ## Struktur Repo
 - `account-service/` - kode aplikasi yang terus dikembangkan tiap hari

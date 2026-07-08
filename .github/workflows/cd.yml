@@ -1,0 +1,38 @@
+name: CD - Build and Push Image
+
+on:
+  workflow_run:
+    workflows: ["CI - Build and Test"]
+    types:
+      - completed
+    branches: [main]
+
+jobs:
+  build-and-push-image:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout kode (commit yang sama dengan yang di-test CI)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Login ke ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build dan push image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./account-service
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/account-service:latest
+            ghcr.io/${{ github.repository_owner }}/account-service:${{ github.event.workflow_run.head_sha }}

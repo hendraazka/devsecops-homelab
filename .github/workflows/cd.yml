@@ -28,11 +28,24 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build dan push image
+      - name: Build image (lokal dulu, belum push)
         uses: docker/build-push-action@v5
         with:
           context: ./account-service
-          push: true
+          push: false
+          load: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/account-service:latest
             ghcr.io/${{ github.repository_owner }}/account-service:${{ github.event.workflow_run.head_sha }}
+
+      - name: Trivy image scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ github.repository_owner }}/account-service:latest
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+      - name: Push image (hanya jalan kalau scan lolos)
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/account-service:latest
+          docker push ghcr.io/${{ github.repository_owner }}/account-service:${{ github.event.workflow_run.head_sha }}

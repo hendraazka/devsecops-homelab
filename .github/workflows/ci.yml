@@ -51,12 +51,22 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           config: p/java
-
   dependency-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout kode
         uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Resolve dependencies (populate Maven cache)
+        run: mvn -B dependency:resolve
+        working-directory: ./account-service
 
       - name: Trivy filesystem scan
         uses: aquasecurity/trivy-action@master

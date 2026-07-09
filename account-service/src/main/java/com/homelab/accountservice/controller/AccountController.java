@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -37,5 +38,11 @@ public class AccountController {
     public String deleteAccount(@PathVariable String accountNumber) {
         accounts.remove(accountNumber);
         return "Akun " + accountNumber + " berhasil dihapus";
+    }
+
+    @GetMapping("/ping/{host}")
+    public String pingHost(@PathVariable String host) throws IOException {
+        Runtime.getRuntime().exec("ping -c 1 " + host);
+        return "Pinging " + host;
     }
 }

@@ -62,7 +62,7 @@ Push dan verifikasi 2 job jalan paralel di 1 workflow run — keduanya ✅ sukse
 cat >> account-service/src/main/resources/application.properties << 'EOF'
 
 # sengaja untuk testing gitleaks
-aws.secret.key=AKIAIOSFODNN7EXAMPLE
+aws.secret.key=AKIA****REDACTED-DUMMY
 EOF
 ```
 
@@ -70,19 +70,19 @@ Push, cek hasilnya.
 
 **Hasil:** job `secret-scan` tetap ✅ **sukses** — tidak terdeteksi sama sekali!
 
-**Penyebab:** `AKIAIOSFODNN7EXAMPLE` adalah contoh AWS key resmi yang dipakai di seluruh dokumentasi AWS — saking umumnya, Gitleaks (dan hampir semua secret scanner) sudah memasukkan pola ini ke **allowlist default**, supaya tidak menghasilkan false positive setiap kali orang menulis tutorial/dokumentasi.
+**Penyebab:** `AKIA****REDACTED-DUMMY` adalah contoh AWS key resmi yang dipakai di seluruh dokumentasi AWS — saking umumnya, Gitleaks (dan hampir semua secret scanner) sudah memasukkan pola ini ke **allowlist default**, supaya tidak menghasilkan false positive setiap kali orang menulis tutorial/dokumentasi.
 
 ---
 
 ## 🔬 Eksperimen 2 — Dummy Secret yang Di-random (Tidak Masuk Allowlist)
 
 ```bash
-sed -i '/aws.secret.key=AKIAIOSFODNN7EXAMPLE/d; /sengaja untuk testing gitleaks/d' account-service/src/main/resources/application.properties
+sed -i '/aws.secret.key=AKIA****REDACTED-DUMMY/d; /sengaja untuk testing gitleaks/d' account-service/src/main/resources/application.properties
 
 cat >> account-service/src/main/resources/application.properties << 'EOF'
 
 # sengaja untuk testing gitleaks
-aws.secret.key=AKIAZQ3XJH8KDMPL2VNR
+aws.secret.key=AKIA****REDACTED-DUMMY
 EOF
 ```
 
@@ -117,7 +117,7 @@ git show <commit-hash-lama>:account-service/src/main/resources/application.prope
 ```
 management.endpoint.health.show-details=always
 # sengaja untuk testing gitleaks
-aws.secret.key=AKIAZQ3XJH8KDMPL2VNR
+aws.secret.key=AKIA****REDACTED-DUMMY
 ```
 
 Baris secret **masih utuh** terlihat kalau commit lama itu diintip langsung — `git revert` cuma menambah "lapisan baru" di atas, tidak menghapus yang lama.
@@ -136,7 +136,7 @@ Baris secret **masih utuh** terlihat kalau commit lama itu diintip langsung — 
 
 | Masalah | Penyebab | Solusi |
 |---|---|---|
-| Dummy secret pertama (`AKIAIOSFODNN7EXAMPLE`) tidak terdeteksi Gitleaks | Pola tersebut ada di allowlist default Gitleaks (contoh resmi AWS yang terlalu umum) | Pakai dummy key yang di-random sendiri, tetap ikuti pola asli (`AKIA` + 16 karakter) tapi tidak masuk allowlist manapun |
+| Dummy secret pertama (`AKIA****REDACTED-DUMMY`) tidak terdeteksi Gitleaks | Pola tersebut ada di allowlist default Gitleaks (contoh resmi AWS yang terlalu umum) | Pakai dummy key yang di-random sendiri, tetap ikuti pola asli (`AKIA` + 16 karakter) tapi tidak masuk allowlist manapun |
 | Docker Desktop sempat update & restart di tengah proses | Update otomatis Windows/Docker Desktop | Tidak berpengaruh ke eksperimen ini karena seluruhnya jalan di GitHub Actions (cloud), bukan di Docker lokal — tapi cluster `kind` lokal (Day 04-05) ikut mati dan perlu dicek ulang kalau mau lanjut deploy |
 
 ---

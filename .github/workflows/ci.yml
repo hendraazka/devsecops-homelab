@@ -75,3 +75,17 @@ jobs:
           scan-ref: './account-service'
           severity: 'CRITICAL,HIGH'
           exit-code: '1'
+
+  k8s-manifest-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Download kube-score
+        run: |
+          curl -Lo kube-score https://github.com/zegl/kube-score/releases/download/v1.19.0/kube-score_1.19.0_linux_amd64
+          chmod +x kube-score
+
+      - name: Scan manifest Kubernetes
+        run: ./kube-score score k8s/*.yaml

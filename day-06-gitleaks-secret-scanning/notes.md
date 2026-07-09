@@ -150,3 +150,26 @@ Baris secret **masih utuh** terlihat kalau commit lama itu diintip langsung — 
 ---
 
 [⬅️ Day 05](../day-05-review-end-to-end/notes.md) | [⬅️ Kembali ke index](../README.md) | [➡️ Day 07](../day-07-semgrep-sast/notes.md)
+
+---
+
+## 🎁 Bonus Temuan: Dokumentasi Juga Bisa Kena Scan
+
+Setelah eksperimen di atas selesai dan `notes.md` ini sendiri di-push,
+job `secret-scan` **gagal lagi** — bukan karena kode aplikasi, tapi
+karena `notes.md` ini menuliskan **contoh string dummy key secara literal**
+di dalam blok kode markdown.
+
+**Insight:** Gitleaks cuma mencocokkan **pola/regex**, tidak peduli apakah
+teks itu kode sungguhan atau sekadar dokumentasi/tutorial. Menulis contoh
+secret literal di README, wiki, atau catatan insiden bisa memicu false
+trigger yang sama seperti kode asli.
+
+**Solusi:** redact/samarkan sebagian karakter saat menulis contoh secret
+di dokumentasi, misal `AKIA****REDACTED-DUMMY` alih-alih string lengkap
+20 karakter yang match pola asli.
+
+Ini kasus nyata yang juga sering dialami tim security saat menulis
+postmortem/incident report soal secret yang pernah bocor — dokumentasi
+insidennya sendiri harus hati-hati agar tidak mengulang exposure yang
+sama.

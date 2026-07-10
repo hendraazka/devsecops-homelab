@@ -2,6 +2,7 @@ package com.homelab.accountservice.controller;
 
 import com.homelab.accountservice.model.Account;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,9 +30,15 @@ public class AccountController {
     }
 
     @PostMapping
-    public Account createAccount(@RequestBody Account account) {
-        accounts.put(account.getAccountNumber(), account);
-        return account;
+    public ResponseEntity<?> createAccount(@RequestBody Account account) {
+    	if (account.getAccountNumber() == null || account.getAccountNumber().isBlank()) {
+        	return ResponseEntity.badRequest().body("accountNumber tidak boleh kosong");
+    	}
+    	if (account.getBalance() < 0) {
+        	return ResponseEntity.badRequest().body("balance tidak boleh negatif");
+   	}
+    	accounts.put(account.getAccountNumber(), account);
+    	return ResponseEntity.ok(account);
     }
 
     @DeleteMapping("/{accountNumber}")

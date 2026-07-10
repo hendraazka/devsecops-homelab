@@ -62,6 +62,7 @@ jobs:
         with:
           target: 'http://localhost:8080'
           cmd_options: '-I'
+          allow_issue_writing: false
 
       - name: Stop container DAST scan
         if: always()

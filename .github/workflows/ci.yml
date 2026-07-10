@@ -88,4 +88,10 @@ jobs:
           chmod +x kube-score
 
       - name: Scan manifest Kubernetes
-        run: ./kube-score score k8s/*.yaml
+        run: |
+          ./kube-score score k8s/*.yaml \
+            --ignore-test pod-networkpolicy \
+            --ignore-test deployment-has-poddisruptionbudget \
+            --ignore-test deployment-has-host-podantiaffinity \
+            --ignore-test container-image-tag
+

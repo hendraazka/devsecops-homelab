@@ -32,26 +32,26 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "250m"
+              cpu: "500m"
               ephemeral-storage: "256Mi"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "1000m"
               ephemeral-storage: "512Mi"
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 8080
-            initialDelaySeconds: 45
+            initialDelaySeconds: 90
             periodSeconds: 10
-            failureThreshold: 5
+            failureThreshold: 6
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 5
-            failureThreshold: 5
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 6
       volumes:
         - name: tmp
           emptyDir: {}

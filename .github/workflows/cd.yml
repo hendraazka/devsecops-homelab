@@ -45,6 +45,28 @@ jobs:
           severity: 'CRITICAL,HIGH'
           exit-code: '1'
 
+      - name: Jalankan container untuk DAST scan
+        run: |
+          docker run -d --name zap-target -p 8080:8080 ghcr.io/${{ github.repository_owner }}/account-service:latest
+          echo "Menunggu aplikasi siap..."
+          for i in {1..20}; do
+            if curl -sf http://localhost:8080/actuator/health/readiness; then
+              echo "Aplikasi siap!"
+              break
+            fi
+            sleep 3
+          done
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'http://localhost:8080'
+          cmd_options: '-I'
+
+      - name: Stop container DAST scan
+        if: always()
+        run: docker stop zap-target && docker rm zap-target
+
       - name: Push image (hanya jalan kalau scan lolos)
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/account-service:latest

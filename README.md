@@ -9,18 +9,25 @@ menambahkan layer security di setiap tahap pipeline: secret scanning,
 SAST, dependency scanning, container image scanning, Kubernetes manifest
 scanning, sampai DAST.
 
+**Status: 12 hari roadmap utama selesai ✅**
+
 ---
 
 ## 🧰 Tech Stack
 
 | Kategori | Tools |
 |---|---|
-| Bahasa & Framework | Java 17, Spring Boot |
+| Bahasa & Framework | Java 17, Spring Boot 3.5.14 |
 | Containerization | Docker (multi-stage build) |
 | CI/CD | GitHub Actions |
 | Orkestrasi | Kubernetes (kind) |
 | Container Registry | GitHub Container Registry (ghcr.io) |
-| Security (menyusul) | Gitleaks, Semgrep, Trivy, kube-score, OWASP ZAP |
+| Secret Scanning | Gitleaks |
+| SAST | Semgrep |
+| Dependency/SCA Scan | Trivy (filesystem mode) |
+| Container Image Scan | Trivy (image mode) |
+| K8s Manifest Scan | kube-score |
+| DAST | OWASP ZAP |
 
 ---
 
@@ -34,19 +41,45 @@ scanning, sampai DAST.
 | Day 02 | CI dasar dengan GitHub Actions | ✅ | [notes.md](./day-02-ci-basics/notes.md) |
 | Day 03 | CD — Build & push image ke ghcr.io | ✅ | [notes.md](./day-03-cd-build-push-image/notes.md) |
 | Day 04 | Manifest Kubernetes + deploy ke kind cluster | ✅ | [notes.md](./day-04-kubernetes-deploy/notes.md) |
-| Day 05 | Review end-to-end Part 1 | ⬜ | - |
+| Day 05 | Review end-to-end Part 1 | ✅ | [notes.md](./day-05-review-end-to-end/notes.md) |
 
 ### Part 2 — DevSecOps (Security Layer)
 
-| Hari | Topik | Status | Notes |
+| Hari | Tool | Status | Notes |
 |---|---|---|---|
-| Day 06 | Gitleaks — Secret scanning di CI | ⬜ | - |
-| Day 07 | Semgrep — SAST | ⬜ | - |
-| Day 08 | Trivy (filesystem mode) — Dependency/SCA scan | ⬜ | - |
-| Day 09 | Trivy (image mode) — Container image scan | ⬜ | - |
-| Day 10 | kube-score/kubesec — Kubernetes manifest scan | ⬜ | - |
-| Day 11 | OWASP ZAP — DAST | ⬜ | - |
-| Day 12 | Review end-to-end Part 2 | ⬜ | - |
+| Day 06 | Gitleaks — Secret scanning di CI | ✅ | [notes.md](./day-06-gitleaks-secret-scanning/notes.md) |
+| Day 07 | Semgrep — SAST | ✅ | [notes.md](./day-07-semgrep-sast/notes.md) |
+| Day 08 | Trivy (fs) — Dependency/SCA scan | ✅ | [notes.md](./day-08-trivy-dependency-scan/notes.md) |
+| Day 09 | Trivy (image) — Container image scan | ✅ | [notes.md](./day-09-trivy-image-scan/notes.md) |
+| Day 10 | kube-score — Kubernetes manifest scan | ✅ | [notes.md](./day-10-kube-score-manifest-scan/notes.md) |
+| Day 11 | OWASP ZAP — DAST | ✅ | [notes.md](./day-11-owasp-zap-dast/notes.md) |
+| Day 12 | Review end-to-end Part 2 (penutup) | ✅ | [notes.md](./day-12-review-devsecops/notes.md) |
+
+---
+
+## 🔒 Pipeline Keamanan Lengkap
+
+```
+push kode
+   ↓
+CI (5 pemeriksaan paralel):
+   ├─ build-and-test      → kode benar secara fungsional
+   ├─ secret-scan          → tidak ada credential bocor (Gitleaks)
+   ├─ sast-scan            → tidak ada pola kode rawan (Semgrep)
+   ├─ dependency-scan      → tidak ada CVE di library (Trivy fs)
+   └─ k8s-manifest-scan    → konfigurasi K8s aman (kube-score)
+   ↓ (semua harus lolos)
+CD:
+   ├─ build image (lokal)
+   ├─ image-scan           → tidak ada CVE di image (Trivy image)
+   ├─ dast-scan            → tidak ada vulnerability runtime (OWASP ZAP)
+   ├─ push ke ghcr.io       (hanya kalau semua di atas lolos)
+   └─ auto-update manifest → commit tag baru [skip ci]
+   ↓
+kubectl apply manual
+   ↓
+aplikasi live di cluster kind, terverifikasi bisa diakses
+```
 
 ---
 
@@ -54,18 +87,23 @@ scanning, sampai DAST.
 
 ```
 devsecops-homelab/
-├── account-service/          # Kode aplikasi Spring Boot (terus berkembang tiap hari)
-├── k8s/                      # Manifest Kubernetes (Deployment, Service)
-├── .github/workflows/        # Pipeline CI (ci.yml) dan CD (cd.yml)
+├── account-service/          # Kode aplikasi Spring Boot
+├── k8s/                       # Manifest Kubernetes (Deployment, Service)
+├── .github/workflows/         # Pipeline CI (ci.yml) dan CD (cd.yml)
 ├── day-01-app-and-dockerfile/
-│   └── notes.md              # Catatan belajar per hari (step by step + konsep + troubleshooting)
+│   └── notes.md                # Catatan belajar per hari
 ├── day-02-ci-basics/
-│   └── notes.md
 ├── day-03-cd-build-push-image/
-│   └── notes.md
 ├── day-04-kubernetes-deploy/
-│   └── notes.md
-└── JOURNEY-SUMMARY.md        # Ringkasan lengkap seluruh journey (semua hari jadi 1 file)
+├── day-05-review-end-to-end/
+├── day-06-gitleaks-secret-scanning/
+├── day-07-semgrep-sast/
+├── day-08-trivy-dependency-scan/
+├── day-09-trivy-image-scan/
+├── day-10-kube-score-manifest-scan/
+├── day-11-owasp-zap-dast/
+├── day-12-review-devsecops/
+└── JOURNEY-SUMMARY.md         # Ringkasan lengkap Day 1-4 (arsip awal)
 ```
 
 **Pola tiap `notes.md`:** checklist yang dipelajari, tabel konsep kunci
@@ -84,14 +122,23 @@ tabel troubleshooting nyata yang dialami, dan insight penting di akhir.
 
 ---
 
-## 🔧 Opsional Lanjutan (setelah Day 12)
+## 📌 Highlight Pembelajaran
 
-Setelah seluruh siklus DevSecOps utama (Day 1-12) tuntas dengan
-GitHub Actions + Kubernetes manifest, sebagai exercise tambahan:
+- **7 gate keamanan** aktif di pipeline: 5 di CI (test, secret, SAST, dependency, manifest) + 2 di CD (image scan, DAST)
+- **27 CVE ditemukan dan diperbaiki** lewat upgrade Spring Boot bertahap (Day 08)
+- **Command injection nyata** ditemukan Semgrep dan diperbaiki dengan `ProcessBuilder` (Day 07)
+- **GitOps-lite** dibangun dari nol: CD auto-update manifest dengan `[skip ci]` untuk mencegah infinite loop (Day 10)
+- **Debugging production-like**: `CrashLoopBackOff`, CPU throttling vs probe timing, node `NotReady`, divergent branch — semua dialami dan diselesaikan secara sistematis
+
+---
+
+## 🔧 Opsional Lanjutan (Setelah Day 12)
+
+Sebagai exercise tambahan di luar roadmap utama:
 
 - **Jenkins** — migrasikan pipeline yang sama (CI + security scan) untuk
   memahami konsep CI/CD yang sama dalam tool berbeda (banyak dipakai di
   perusahaan enterprise/legacy)
 - **Ansible** — provisioning/konfigurasi cluster sebelum deploy aplikasi
   (melengkapi pengalaman Ansible dari [DevOps Homelab Journey](https://github.com/hendraazka/devops-homelab-journey))
-- **ArgoCD / Flux (GitOps)** — otomatisasi penuh dari "image baru di registry" sampai "ter-deploy ke cluster" tanpa `kubectl rollout restart` manual, melengkapi celah yang ditemukan di Day 05 (CD saat ini masih berhenti di *Continuous Delivery*, belum *Continuous Deployment*)
+- **ArgoCD / Flux (GitOps)** — otomatisasi penuh dari "image baru di registry" sampai "ter-deploy ke cluster" tanpa `kubectl rollout restart` manual, melengkapi celah yang ditemukan di Day 05 dan Day 10 (CD saat ini masih *Continuous Delivery*, belum *Continuous Deployment*)

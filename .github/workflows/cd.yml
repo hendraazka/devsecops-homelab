@@ -63,6 +63,7 @@ jobs:
           target: 'http://localhost:8080'
           cmd_options: '-I'
           allow_issue_writing: false
+          artifact_name: zap-report-${{ github.event.workflow_run.head_sha }}
 
       - name: Stop container DAST scan
         if: always()

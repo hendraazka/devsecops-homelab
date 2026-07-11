@@ -60,7 +60,7 @@ scanning, sampai DAST.
 
 | Hari | Tool | Status | Notes |
 |---|---|---|---|
-| Day 13 | Pod Security Standards + OPA/Gatekeeper |  | [notes.md] |
+| Day 13 | Pod Security Standards + OPA/Gatekeeper | ✅ | [notes.md] |
 | Day 14 | IaC Security Scanning (tfsec/Checkov)  |  | [notes.md] |
 | Day 15 | SonarQube — SAST & Code Quality (pembanding Semgrep)   |  | [notes.md] |
 | Day 16 | Jenkins — migrasi pipeline dari GitHub Actions   |  | [notes.md] |

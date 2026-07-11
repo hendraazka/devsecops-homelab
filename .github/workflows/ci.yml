@@ -102,12 +102,13 @@ jobs:
       - name: Checkout kode
         uses: actions/checkout@v4
 
-      - name: tfsec scan
-        uses: aquasecurity/tfsec-action@v1.0.3
-        with:
-          working_directory: terraform/s3-and-security-group
-          soft_fail: false
+      - name: Install tfsec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
+      - name: tfsec scan
+        run: tfsec terraform/s3-and-security-group/
+      
       - name: Checkov scan
         uses: bridgecrewio/checkov-action@master
         with:

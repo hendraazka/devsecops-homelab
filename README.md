@@ -55,6 +55,17 @@ scanning, sampai DAST.
 | Day 11 | OWASP ZAP — DAST | ✅ | [notes.md](./day-11-owasp-zap-dast/notes.md) |
 | Day 12 | Review end-to-end Part 2 (penutup) | ✅ | [notes.md](./day-12-review-devsecops/notes.md) |
 
+
+### Part 3 — DevSecOps (Advanced Security & Tooling)
+
+| Hari | Tool | Status | Notes |
+|---|---|---|---|
+| Day 13 | Pod Security Standards + OPA/Gatekeeper |  | [notes.md] |
+| Day 14 | IaC Security Scanning (tfsec/Checkov)  |  | [notes.md] |
+| Day 15 | SonarQube — SAST & Code Quality (pembanding Semgrep)   |  | [notes.md] |
+| Day 16 | Jenkins — migrasi pipeline dari GitHub Actions   |  | [notes.md] |
+| Day 17 | Ansible — provisioning cluster & tools otomatis  |  | [notes.md] |
+| Day 18 | ArgoCD — GitOps penuh, menutup celah Continuous Deployment   |  | [notes.md] |
 ---
 
 ## 🔒 Pipeline Keamanan Lengkap
@@ -132,13 +143,3 @@ tabel troubleshooting nyata yang dialami, dan insight penting di akhir.
 
 ---
 
-## 🔧 Opsional Lanjutan (Setelah Day 12)
-
-Sebagai exercise tambahan di luar roadmap utama:
-
-- **Jenkins** — migrasikan pipeline yang sama (CI + security scan) untuk
-  memahami konsep CI/CD yang sama dalam tool berbeda (banyak dipakai di
-  perusahaan enterprise/legacy)
-- **Ansible** — provisioning/konfigurasi cluster sebelum deploy aplikasi
-  (melengkapi pengalaman Ansible dari [DevOps Homelab Journey](https://github.com/hendraazka/devops-homelab-journey))
-- **ArgoCD / Flux (GitOps)** — otomatisasi penuh dari "image baru di registry" sampai "ter-deploy ke cluster" tanpa `kubectl rollout restart` manual, melengkapi celah yang ditemukan di Day 05 dan Day 10 (CD saat ini masih *Continuous Delivery*, belum *Continuous Deployment*)

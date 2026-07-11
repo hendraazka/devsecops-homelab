@@ -26,6 +26,11 @@ spec:
             runAsGroup: 10001
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
           volumeMounts:
             - name: tmp
               mountPath: /tmp

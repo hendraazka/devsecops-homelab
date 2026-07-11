@@ -95,3 +95,22 @@ jobs:
             --ignore-test deployment-has-host-podantiaffinity \
             --ignore-test container-image-tag
 
+
+  iac-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: tfsec scan
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: terraform/s3-and-security-group
+          soft_fail: false
+
+      - name: Checkov scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/s3-and-security-group
+          skip_check: CKV2_AWS_62,CKV2_AWS_61,CKV2_AWS_5,CKV_AWS_144
+          quiet: true

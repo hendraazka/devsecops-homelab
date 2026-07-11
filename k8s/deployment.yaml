@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: account-service
-          image: ghcr.io/hendraazka/account-service:cbd5a0fef128bb3a5025ff1e1d8d56ef0da795d6
+          image: ghcr.io/hendraazka/account-service:bd876a7a01e6f715d65d72841a8f1c9bb9b99d67
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

@@ -49,7 +49,8 @@ public class AccountController {
 
     @GetMapping("/ping/{host}")
     public String pingHost(@PathVariable String host) throws IOException {
-        ProcessBuilder pb = new ProcessBuilder("ping", "-c", "1", host);
+        ProcessBuilder pb = new ProcessBuilder("/bin/ping", "-c", "1", host);
+	pb.environment().put("PATH", "/usr/bin:/bin");
 	pb.start();
 	return "Pinging " + host;
     }

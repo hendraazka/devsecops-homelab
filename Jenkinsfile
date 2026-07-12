@@ -25,11 +25,12 @@ pipeline {
             steps {
                 dir('account-service') {
                     sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
+                    sh "kind load docker-image ${IMAGE_NAME}:${BUILD_NUMBER} --name devsecops-homelab"
                 }
             }
         }
 
-       stage('Deploy to Kubernetes') {
+     stage('Deploy to Kubernetes') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-devsecops-homelab', variable: 'KUBECONFIG_FILE')]) {
                     sh '''

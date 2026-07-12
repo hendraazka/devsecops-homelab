@@ -117,3 +117,27 @@ jobs:
           directory: terraform/s3-and-security-group
           skip_check: CKV2_AWS_62,CKV2_AWS_61,CKV2_AWS_5,CKV_AWS_144
           quiet: true
+
+  sonarqube-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Compile untuk hasil binaries
+        run: mvn -B clean compile
+        working-directory: ./account-service
+
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

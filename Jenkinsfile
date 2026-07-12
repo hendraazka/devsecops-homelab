@@ -34,12 +34,13 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-devsecops-homelab', variable: 'KUBECONFIG_FILE')]) {
                     sh '''
+                        kubectl --kubeconfig=$KUBECONFIG_FILE patch deployment account-service -p '{"spec":{"template":{"spec":{"containers":[{"name":"account-service","imagePullPolicy":"IfNotPresent"}]}}}}'
                         kubectl --kubeconfig=$KUBECONFIG_FILE set image deployment/account-service account-service=${IMAGE_NAME}:${BUILD_NUMBER}
                         kubectl --kubeconfig=$KUBECONFIG_FILE rollout status deployment/account-service
                     '''
                 }
             }
-        }
+        }    
 
     }
 

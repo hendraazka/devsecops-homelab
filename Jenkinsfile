@@ -29,17 +29,17 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+       stage('Deploy to Kubernetes') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-devsecops-homelab', variable: 'KUBECONFIG_FILE')]) {
                     sh '''
-                        kubectl --kubeconfig=$KUBECONFIG_FILE apply -f k8s/deployment.yaml
-                        kubectl --kubeconfig=$KUBECONFIG_FILE apply -f k8s/service.yaml
+                        kubectl --kubeconfig=$KUBECONFIG_FILE set image deployment/account-service account-service=${IMAGE_NAME}:${BUILD_NUMBER}
                         kubectl --kubeconfig=$KUBECONFIG_FILE rollout status deployment/account-service
                     '''
                 }
             }
         }
+
     }
 
     post {

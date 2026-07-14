@@ -1,0 +1,43 @@
+---
+- name: Setup tools yang dibutuhkan Jenkins untuk pipeline
+  hosts: jenkins_servers
+  gather_facts: false
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+
+    - name: Install Maven
+      apt:
+        name: maven
+        state: present
+
+    - name: Install Docker CLI
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Pastikan grup docker ada dengan GID yang benar
+      group:
+        name: docker
+        gid: 1001
+        state: present
+
+    - name: Tambahkan user jenkins ke grup docker
+      user:
+        name: jenkins
+        groups: docker
+        append: true
+
+    - name: Install kubectl
+      get_url:
+        url: "https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Install kind
+      get_url:
+        url: "https://kind.sigs.k8s.io/dl/v0.29.0/kind-linux-amd64"
+        dest: /usr/local/bin/kind
+        mode: '0755'

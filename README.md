@@ -181,7 +181,7 @@ folder `screenshots/` masing-masing.
 - **Continuous Deployment sungguhan** akhirnya terbukti bekerja lewat Jenkins lokal — 6 percobaan, 5 masalah nyata terselesaikan (Day 16)
 - **Idempotency Ansible dibuktikan langsung**: `changed=0` saat kondisi normal, `changed=1` tepat saat 1 tool sengaja dirusak (Day 17)
 - **Debugging production-like** yang dialami berulang kali: `CrashLoopBackOff`, CPU throttling vs probe timing, node `NotReady`, divergent branch, GID permission mismatch, IP/port cluster yang berubah setiap restart
-
+- **GitOps dan Progressive Delivery diwujudkan via Argo CD: Migrasi penuh dari metode push-based ke pull-based (Argo CD), mengotomatisasi rekonsiliasi state cluster dengan Git, menerapkan strategi Application-of-Applications untuk multi-microservices.
 ---
 
 ## 🔧 Rencana Lanjutan

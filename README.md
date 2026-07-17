@@ -68,8 +68,8 @@ quality, alternative CI/CD, provisioning otomatis, GitOps).
 | Day 15 | SonarQube — SAST & Code Quality (pembanding Semgrep) | ✅ | [notes.md](./day-15-sonarqube-sast/notes.md) |
 | Day 16 | Jenkins — migrasi pipeline & solusi Continuous Deployment | ✅ | [notes.md](./day-16-jenkins-migration/notes.md) |
 | Day 17 | Ansible — provisioning otomatis tools Jenkins | ✅ | [notes.md](./day-17-ansible-provisioning/notes.md) |
-| Day 18 | Semaphore — GUI ringan untuk Ansible | 🔄 | - |
-| Day 19 | ArgoCD — GitOps penuh, menutup celah Continuous Deployment | ⬜ | - |
+| Day 18 | Semaphore — GUI ringan untuk Ansible | ✅ | [notes.md](./day-18-semaphore-gui/notes.md) |
+| Day 19 | ArgoCD — GitOps, menutup celah Continuous Deployment | ✅ | [notes.md](./day-19-argocd-gitops/notes.md) |
 
 ---
 
@@ -142,7 +142,8 @@ devsecops-homelab/
 ├── .github/workflows/            # Pipeline CI (ci.yml) dan CD (cd.yml)
 ├── Jenkinsfile                   # Pipeline alternatif via Jenkins (Day 16)
 ├── sonar-project.properties      # Konfigurasi SonarCloud (Day 15)
-├── day-01 .. day-17.../          # Catatan belajar per hari
+├── argocd-app.yaml               # Konfigurasi argocd (Day 19)
+├── day-01 .. day-19.../          # Catatan belajar per hari
 │   └── notes.md
 └── JOURNEY-SUMMARY.md            # Ringkasan lengkap Day 1-4 (arsip awal)
 ```

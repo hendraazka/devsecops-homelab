@@ -141,3 +141,23 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  notify-on-failure:
+    needs:
+      - build-and-test
+      - secret-scan
+      - sast-scan
+      - dependency-scan
+      - k8s-manifest-scan
+      - iac-scan
+      - sonarqube-scan
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify n8n on failure (webhook)
+        run: |
+          curl -X POST https://landlord-aviator-sizzling.ngrok-free.dev/webhook/cicd-failure-alert \
+            -H "Content-Type: application/json" \
+            -H "X-Webhook-Secret: ${{ secrets.N8N_WEBHOOK_SECRET }}" \
+            -H "ngrok-skip-browser-warning: true" \
+            -d '{"repo":"${{ github.repository }}","run_id":"${{ github.run_id }}","workflow":"${{ github.workflow }}","branch":"${{ github.ref_name }}"}'

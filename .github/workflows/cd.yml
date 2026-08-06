@@ -86,3 +86,13 @@ jobs:
           git add k8s/deployment.yaml
           git diff --staged --quiet && echo "Tidak ada perubahan" || git commit -m "chore: update k8s manifest image tag to ${{ github.event.workflow_run.head_sha }} [skip ci]"
           git push origin HEAD:main
+
+
+      - name: Notify n8n on failure (webhook)
+        if: failure()
+        run: |
+          curl -X POST https://landlord-aviator-sizzling.ngrok-free.dev/webhook/cicd-failure-alert \
+            -H "Content-Type: application/json" \
+            -H "X-Webhook-Secret: ${{ secrets.N8N_WEBHOOK_SECRET }}" \
+            -H "ngrok-skip-browser-warning: true" \
+            -d '{"repo":"${{ github.repository }}","run_id":"${{ github.run_id }}","workflow":"${{ github.workflow }}","branch":"${{ github.ref_name }}"}'
